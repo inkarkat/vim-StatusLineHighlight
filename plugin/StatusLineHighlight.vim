@@ -30,24 +30,32 @@ function! s:SetHighlight( name )
 	let &l:stl = l:statuslineWithHighlight
     else
 	" There exists a local setting; this may be one of our highlight
-	" customizations with a different highlight group, or an actual special
-	" statusline set by either the user or a filetype plugin. 
-echomsg '*** old: ' . strpart(&l:stl, 0, 25) . ' new: ' strpart(l:statuslineWithHighlight, 0, 25)
-	if ! exists('w:save_statusline')
-	    let w:save_statusline = &l:stl
+	" customizations with a different highlight group, or an actual
+	" window-local statusline set by either the user or a filetype plugin. 
+"****D echomsg '*** old: ' . strpart(&l:stl, 0, 25) . ' new: ' strpart(l:statuslineWithHighlight, 0, 25)
+	let l:statuslineWithoutHighlight = substitute(&l:stl, '^%#StatusLine\w\+#', '', '')
+	if &l:stl ==# l:statuslineWithoutHighlight
+	    " There actually was an actual window-local statusline. Save it so
+	    " that it can be restored instead of overwriting it with the global
+	    " statusline. 
+	    let w:save_statusline = l:statuslineWithoutHighlight
 	endif
-	let &l:stl = '%#StatusLine' . a:name . '#' . substitute(&l:stl, '^%#StatusLine\w\+#', '', '')
+
+	let &l:stl = '%#StatusLine' . a:name . '#' .  l:statuslineWithoutHighlight
     endif
 endfunction
 function! s:ClearHighlight()
     if &l:stl !~# '^%#StatusLine\w\+#'
+	" There was none of our highlight customizations. 
 	return
     endif
 
     if exists('w:save_statusline')
+	" Restore the saved window-local setting. 
 	let &l:stl = w:save_statusline
 	unlet w:save_statusline
     else
+	" Restore the global setting. 
 	setlocal stl&
     endif
 endfunction
