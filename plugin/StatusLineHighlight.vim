@@ -16,10 +16,16 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS 
+"	002	16-Dec-2010	Added highlight groups for more than just
+"				readonly. 
+"				Added autocmds to better capture buffer
+"				modification: InsertEnter (followed by fire-once
+"				CursorMovedI) and BufWritePost. 
 "	001	15-Dec-2010	file creation
 
-" Avoid installing twice or when in unsupported Vim version. 
-if exists('g:loaded_StatusLineHighlight') || (v:version < 700)
+" Avoid installing twice, when in unsupported Vim version, or there are no
+" colors. 
+if exists('g:loaded_StatusLineHighlight') || (v:version < 700) || (! has('gui_running') && &t_Co <= 2)
     finish
 endif
 let g:loaded_StatusLineHighlight = 1
@@ -67,11 +73,17 @@ function! s:ClearHighlight()
 	setlocal stl&
     endif
 endfunction
-function! s:StatuslineHighlight( isEnter )
+function! s:StatusLineHighlight( isEnter )
     let l:notCurrent = (a:isEnter ? '' : 'NC')
-    if ! &modifiable
+    if &l:previewwindow
+	call s:SetHighlight('Preview' . l:notCurrent)
+    elseif &l:modified
+	call s:SetHighlight('Modified' . l:notCurrent)
+    elseif ! (&l:buftype ==# '' || &l:buftype ==# 'acwrite')
+	call s:SetHighlight('Special' . l:notCurrent)
+    elseif ! &l:modifiable
 	call s:SetHighlight('Unmodifiable' . l:notCurrent)
-    elseif &readonly
+    elseif &l:readonly
 	call s:SetHighlight('Readonly' . l:notCurrent)
     else
 	call s:ClearHighlight()
@@ -79,15 +91,30 @@ function! s:StatuslineHighlight( isEnter )
     return ''
 endfunction
 
-augroup StatuslineHighlight
+function! s:StatusLineGetModification()
+    augroup StatusLineHighlightModification
+	autocmd!
+	autocmd CursorMovedI * call <SID>StatusLineHighlight(1) | autocmd! StatusLineHighlightModification
+    augroup END
+endfunction
+
+augroup StatusLineHighlight
     autocmd!
-    autocmd BufWinEnter,WinEnter * call <SID>StatuslineHighlight(1)
-    autocmd WinLeave * call <SID>StatuslineHighlight(0)
+    autocmd BufWinEnter,WinEnter,CursorHold,CursorHoldI,BufWritePost * call <SID>StatusLineHighlight(1)
+    autocmd WinLeave * call <SID>StatusLineHighlight(0)
+    autocmd InsertEnter * if ! &l:modified | call <SID>StatusLineGetModification() | endif
 augroup END
 
-hi def StatusLineReadonly   gui=bold,reverse guifg=DarkGrey
-hi def StatusLineReadonlyNC gui=reverse guifg=DarkGrey
-hi def StatusLineUnmodifiable   gui=bold,reverse guifg=Grey
-hi def StatusLineUnmodifiableNC gui=reverse guifg=Grey
+
+hi def StatusLineModified           term=bold,reverse cterm=bold,reverse ctermbg=DarkRed  gui=bold,reverse guifg=DarkRed
+hi def StatusLineModifiedNC         term=reverse      cterm=reverse      ctermbg=DarkRed  gui=reverse      guifg=DarkRed
+hi def StatusLinePreview            term=bold,reverse cterm=bold,reverse ctermbg=Blue     gui=bold,reverse guifg=Blue
+hi def StatusLinePreviewNC          term=reverse      cterm=reverse      ctermbg=Blue     gui=reverse      guifg=Blue
+hi def StatusLineReadonly           term=bold,reverse cterm=bold,reverse ctermbg=Grey     gui=bold,reverse guifg=DarkGrey
+hi def StatusLineReadonlyNC         term=reverse      cterm=reverse      ctermbg=Grey     gui=reverse      guifg=DarkGrey
+hi def StatusLineSpecial            term=bold,reverse cterm=bold,reverse ctermbg=DarkBlue gui=bold,reverse guifg=DarkBlue
+hi def StatusLineSpecialNC          term=reverse      cterm=reverse      ctermbg=DarkBlue gui=reverse      guifg=DarkBlue
+hi def StatusLineUnmodifiable       term=bold,reverse cterm=bold,reverse ctermbg=Grey     gui=bold,reverse guifg=Grey
+hi def StatusLineUnmodifiableNC     term=reverse      cterm=reverse      ctermbg=Grey     gui=reverse      guifg=Grey
 
 " vim: set sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
