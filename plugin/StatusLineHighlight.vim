@@ -16,6 +16,8 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS 
+"	004	21-Dec-2010	Do not use cterm=reverse, because that doesn't
+"				work in the Windows console. 
 "	003	18-Dec-2010	Now detecting buffer modification also after
 "				moving around while in insert mode. 
 "				Shuffled blocks around in the script. 
@@ -35,16 +37,21 @@ let g:loaded_StatusLineHighlight = 1
 
 "- default highlightings ------------------------------------------------------
 " You may define your own colors in your vimrc file, in the form as below: 
-highlight def StatusLineModified           term=bold,reverse cterm=bold,reverse ctermbg=DarkRed  gui=bold,reverse guifg=DarkRed
-highlight def StatusLineModifiedNC         term=reverse      cterm=reverse      ctermbg=DarkRed  gui=reverse      guifg=DarkRed
-highlight def StatusLinePreview            term=bold,reverse cterm=bold,reverse ctermbg=Blue     gui=bold,reverse guifg=Blue
-highlight def StatusLinePreviewNC          term=reverse      cterm=reverse      ctermbg=Blue     gui=reverse      guifg=Blue
-highlight def StatusLineReadonly           term=bold,reverse cterm=bold,reverse ctermbg=Grey     gui=bold,reverse guifg=DarkGrey
-highlight def StatusLineReadonlyNC         term=reverse      cterm=reverse      ctermbg=Grey     gui=reverse      guifg=DarkGrey
-highlight def StatusLineSpecial            term=bold,reverse cterm=bold,reverse ctermbg=DarkBlue gui=bold,reverse guifg=DarkBlue
-highlight def StatusLineSpecialNC          term=reverse      cterm=reverse      ctermbg=DarkBlue gui=reverse      guifg=DarkBlue
-highlight def StatusLineUnmodifiable       term=bold,reverse cterm=bold,reverse ctermbg=Grey     gui=bold,reverse guifg=Grey
-highlight def StatusLineUnmodifiableNC     term=reverse      cterm=reverse      ctermbg=Grey     gui=reverse      guifg=Grey
+"
+" Note: Do not use cterm=reverse, because some terminals can't mix this with
+" coloring (cp. :help highlight-cterm); instead, emulate the inversion by
+" specifying the background color as the foreground color. Override if this
+" doesn't work for you. 
+highlight def StatusLineModified           term=bold,reverse cterm=bold ctermfg=bg ctermbg=DarkRed  gui=bold,reverse guifg=DarkRed
+highlight def StatusLineModifiedNC         term=reverse      cterm=NONE ctermfg=bg ctermbg=DarkRed  gui=reverse      guifg=DarkRed
+highlight def StatusLinePreview            term=bold,reverse cterm=bold ctermfg=bg ctermbg=Blue     gui=bold,reverse guifg=Blue
+highlight def StatusLinePreviewNC          term=reverse      cterm=NONE ctermfg=bg ctermbg=Blue     gui=reverse      guifg=Blue
+highlight def StatusLineReadonly           term=bold,reverse cterm=bold ctermfg=bg ctermbg=Grey     gui=bold,reverse guifg=DarkGrey
+highlight def StatusLineReadonlyNC         term=reverse      cterm=NONE ctermfg=bg ctermbg=Grey     gui=reverse      guifg=DarkGrey
+highlight def StatusLineSpecial            term=bold,reverse cterm=bold ctermfg=bg ctermbg=DarkBlue gui=bold,reverse guifg=DarkBlue
+highlight def StatusLineSpecialNC          term=reverse      cterm=NONE ctermfg=bg ctermbg=DarkBlue gui=reverse      guifg=DarkBlue
+highlight def StatusLineUnmodifiable       term=bold,reverse cterm=bold ctermfg=bg ctermbg=Grey     gui=bold,reverse guifg=Grey
+highlight def StatusLineUnmodifiableNC     term=reverse      cterm=NONE ctermfg=bg ctermbg=Grey     gui=reverse      guifg=Grey
 
 
 "- functions ------------------------------------------------------------------
