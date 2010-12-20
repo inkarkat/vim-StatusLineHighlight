@@ -16,6 +16,9 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS 
+"	003	18-Dec-2010	Now detecting buffer modification also after
+"				moving around while in insert mode. 
+"				Shuffled blocks around in the script. 
 "	002	16-Dec-2010	Added highlight groups for more than just
 "				readonly. 
 "				Added autocmds to better capture buffer
@@ -30,6 +33,21 @@ if exists('g:loaded_StatusLineHighlight') || (v:version < 700) || (! has('gui_ru
 endif
 let g:loaded_StatusLineHighlight = 1
 
+"- default highlightings ------------------------------------------------------
+" You may define your own colors in your vimrc file, in the form as below: 
+highlight def StatusLineModified           term=bold,reverse cterm=bold,reverse ctermbg=DarkRed  gui=bold,reverse guifg=DarkRed
+highlight def StatusLineModifiedNC         term=reverse      cterm=reverse      ctermbg=DarkRed  gui=reverse      guifg=DarkRed
+highlight def StatusLinePreview            term=bold,reverse cterm=bold,reverse ctermbg=Blue     gui=bold,reverse guifg=Blue
+highlight def StatusLinePreviewNC          term=reverse      cterm=reverse      ctermbg=Blue     gui=reverse      guifg=Blue
+highlight def StatusLineReadonly           term=bold,reverse cterm=bold,reverse ctermbg=Grey     gui=bold,reverse guifg=DarkGrey
+highlight def StatusLineReadonlyNC         term=reverse      cterm=reverse      ctermbg=Grey     gui=reverse      guifg=DarkGrey
+highlight def StatusLineSpecial            term=bold,reverse cterm=bold,reverse ctermbg=DarkBlue gui=bold,reverse guifg=DarkBlue
+highlight def StatusLineSpecialNC          term=reverse      cterm=reverse      ctermbg=DarkBlue gui=reverse      guifg=DarkBlue
+highlight def StatusLineUnmodifiable       term=bold,reverse cterm=bold,reverse ctermbg=Grey     gui=bold,reverse guifg=Grey
+highlight def StatusLineUnmodifiableNC     term=reverse      cterm=reverse      ctermbg=Grey     gui=reverse      guifg=Grey
+
+
+"- functions ------------------------------------------------------------------
 function! s:SetHighlight( name )
     let l:statuslineWithHighlight = '%#StatusLine' . a:name . '#' . &g:stl
 
@@ -91,10 +109,12 @@ function! s:StatusLineHighlight( isEnter )
     return ''
 endfunction
 
+
+"- autocmds -------------------------------------------------------------------
 function! s:StatusLineGetModification()
     augroup StatusLineHighlightModification
 	autocmd!
-	autocmd CursorMovedI * call <SID>StatusLineHighlight(1) | autocmd! StatusLineHighlightModification
+	autocmd CursorMovedI * if &l:modified | call <SID>StatusLineHighlight(1) | execute 'autocmd! StatusLineHighlightModification' | endif
     augroup END
 endfunction
 
@@ -104,17 +124,5 @@ augroup StatusLineHighlight
     autocmd WinLeave * call <SID>StatusLineHighlight(0)
     autocmd InsertEnter * if ! &l:modified | call <SID>StatusLineGetModification() | endif
 augroup END
-
-
-hi def StatusLineModified           term=bold,reverse cterm=bold,reverse ctermbg=DarkRed  gui=bold,reverse guifg=DarkRed
-hi def StatusLineModifiedNC         term=reverse      cterm=reverse      ctermbg=DarkRed  gui=reverse      guifg=DarkRed
-hi def StatusLinePreview            term=bold,reverse cterm=bold,reverse ctermbg=Blue     gui=bold,reverse guifg=Blue
-hi def StatusLinePreviewNC          term=reverse      cterm=reverse      ctermbg=Blue     gui=reverse      guifg=Blue
-hi def StatusLineReadonly           term=bold,reverse cterm=bold,reverse ctermbg=Grey     gui=bold,reverse guifg=DarkGrey
-hi def StatusLineReadonlyNC         term=reverse      cterm=reverse      ctermbg=Grey     gui=reverse      guifg=DarkGrey
-hi def StatusLineSpecial            term=bold,reverse cterm=bold,reverse ctermbg=DarkBlue gui=bold,reverse guifg=DarkBlue
-hi def StatusLineSpecialNC          term=reverse      cterm=reverse      ctermbg=DarkBlue gui=reverse      guifg=DarkBlue
-hi def StatusLineUnmodifiable       term=bold,reverse cterm=bold,reverse ctermbg=Grey     gui=bold,reverse guifg=Grey
-hi def StatusLineUnmodifiableNC     term=reverse      cterm=reverse      ctermbg=Grey     gui=reverse      guifg=Grey
 
 " vim: set sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
