@@ -1,4 +1,4 @@
-" StatusLineHighlight.vim: summary
+" StatusLineHighlight.vim: Change statusline color depending on buffer state. 
 "
 "   Using different colors for the status line is trickier than it seems: Though
 "   the 'statusline' setting supports inline expressions via %{expr}, the
@@ -16,8 +16,9 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS 
-"	004	21-Dec-2010	Do not use cterm=reverse, because that doesn't
-"				work in the Windows console. 
+"	004	21-Dec-2010	Corrected cterm highlighting. cterm=reverse
+"				doesn't work in the Windows console. Added a
+"				note about this and possible workarounds. 
 "	003	18-Dec-2010	Now detecting buffer modification also after
 "				moving around while in insert mode. 
 "				Shuffled blocks around in the script. 
@@ -38,20 +39,21 @@ let g:loaded_StatusLineHighlight = 1
 "- default highlightings ------------------------------------------------------
 " You may define your own colors in your vimrc file, in the form as below: 
 "
-" Note: Do not use cterm=reverse, because some terminals can't mix this with
-" coloring (cp. :help highlight-cterm); instead, emulate the inversion by
-" specifying the background color as the foreground color. Override if this
-" doesn't work for you. 
-highlight def StatusLineModified           term=bold,reverse cterm=bold ctermfg=bg ctermbg=DarkRed  gui=bold,reverse guifg=DarkRed
-highlight def StatusLineModifiedNC         term=reverse      cterm=NONE ctermfg=bg ctermbg=DarkRed  gui=reverse      guifg=DarkRed
-highlight def StatusLinePreview            term=bold,reverse cterm=bold ctermfg=bg ctermbg=Blue     gui=bold,reverse guifg=Blue
-highlight def StatusLinePreviewNC          term=reverse      cterm=NONE ctermfg=bg ctermbg=Blue     gui=reverse      guifg=Blue
-highlight def StatusLineReadonly           term=bold,reverse cterm=bold ctermfg=bg ctermbg=Grey     gui=bold,reverse guifg=DarkGrey
-highlight def StatusLineReadonlyNC         term=reverse      cterm=NONE ctermfg=bg ctermbg=Grey     gui=reverse      guifg=DarkGrey
-highlight def StatusLineSpecial            term=bold,reverse cterm=bold ctermfg=bg ctermbg=DarkBlue gui=bold,reverse guifg=DarkBlue
-highlight def StatusLineSpecialNC          term=reverse      cterm=NONE ctermfg=bg ctermbg=DarkBlue gui=reverse      guifg=DarkBlue
-highlight def StatusLineUnmodifiable       term=bold,reverse cterm=bold ctermfg=bg ctermbg=Grey     gui=bold,reverse guifg=Grey
-highlight def StatusLineUnmodifiableNC     term=reverse      cterm=NONE ctermfg=bg ctermbg=Grey     gui=reverse      guifg=Grey
+" Note: Some terminals (the Windows console) cannot mix cterm=reverse with
+" coloring (cp. :help highlight-cterm). Override the default settings if this
+" doesn't work for you; e.g. you could emulate the inversion by specifying the
+" background color as the foreground color. The Windows console also doesn't
+" support cterm=bold, so you may already have a special case for it, anyway. 
+highlight def StatusLineModified           term=bold,reverse cterm=bold,reverse ctermfg=DarkRed  gui=bold,reverse guifg=DarkRed
+highlight def StatusLineModifiedNC         term=reverse      cterm=reverse      ctermfg=DarkRed  gui=reverse      guifg=DarkRed
+highlight def StatusLinePreview            term=bold,reverse cterm=bold,reverse ctermfg=Blue     gui=bold,reverse guifg=Blue
+highlight def StatusLinePreviewNC          term=reverse      cterm=reverse      ctermfg=Blue     gui=reverse      guifg=Blue
+highlight def StatusLineReadonly           term=bold,reverse cterm=bold,reverse ctermfg=Grey     gui=bold,reverse guifg=DarkGrey
+highlight def StatusLineReadonlyNC         term=reverse      cterm=reverse      ctermfg=Grey     gui=reverse      guifg=DarkGrey
+highlight def StatusLineSpecial            term=bold,reverse cterm=bold,reverse ctermfg=DarkBlue gui=bold,reverse guifg=DarkBlue
+highlight def StatusLineSpecialNC          term=reverse      cterm=reverse      ctermfg=DarkBlue gui=reverse      guifg=DarkBlue
+highlight def StatusLineUnmodifiable       term=bold,reverse cterm=bold,reverse ctermfg=Grey     gui=bold,reverse guifg=Grey
+highlight def StatusLineUnmodifiableNC     term=reverse      cterm=reverse      ctermfg=Grey     gui=reverse      guifg=Grey
 
 
 "- functions ------------------------------------------------------------------
