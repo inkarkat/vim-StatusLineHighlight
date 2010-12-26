@@ -1,13 +1,5 @@
 " StatusLineHighlight.vim: Change statusline color depending on buffer state. 
 "
-"   Using different colors for the status line is trickier than it seems: Though
-"   the 'statusline' setting supports inline expressions via %{expr}, the
-"   returned text is taken as-is; highlight items %#hlgroup# and #* are not
-"   evaluated, only printed as text. Evaluation does happen when one %!expr is
-"   used, but the expression seems to be evaluated only once for a complete
-"   screen redraw cycle, not for each individual status line, so one cannot use
-"   it to set different highlightings for different status lines. 
-"
 " DEPENDENCIES:
 "
 " Copyright: (C) 2010 Ingo Karkat
