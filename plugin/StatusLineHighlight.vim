@@ -8,6 +8,11 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS 
+"   1.00.005	27-Dec-2010	Added check and emulation for empty &g:stl (the
+"				default), so that this also works for a vanilla,
+"				uncustomized Vim. 
+"				Added CmdwinEnter event to properly highlight
+"				the command window as "special". 
 "	004	21-Dec-2010	Corrected cterm highlighting. cterm=reverse
 "				doesn't work in the Windows console. Added a
 "				note about this and possible workarounds. 
@@ -49,8 +54,14 @@ highlight def StatusLineUnmodifiableNC     term=reverse      cterm=reverse      
 
 
 "- functions ------------------------------------------------------------------
+function! s:DefaultStatusline()
+    " With the prepended highlight group, an empty 'statusline' setting has a
+    " different meaning: the status line would be colored, but completely empty.
+    " Thus, we have to emulate Vim's default status line here. 
+    return '%<%f %h%m%r' . (&ruler ? '%=%-14.(%l,%c%V%) %P' : '')
+endfunction
 function! s:SetHighlight( name )
-    let l:statuslineWithHighlight = '%#StatusLine' . a:name . '#' . &g:stl
+    let l:statuslineWithHighlight = '%#StatusLine' . a:name . '#' . (empty(&g:stl) ? s:DefaultStatusline() : &g:stl)
 
     if &l:stl ==# l:statuslineWithHighlight
 	" The highlight is already set; nothing to do. 
@@ -121,7 +132,7 @@ endfunction
 
 augroup StatusLineHighlight
     autocmd!
-    autocmd BufWinEnter,WinEnter,CursorHold,CursorHoldI,BufWritePost * call <SID>StatusLineHighlight(1)
+    autocmd BufWinEnter,WinEnter,CmdwinEnter,CursorHold,CursorHoldI,BufWritePost * call <SID>StatusLineHighlight(1)
     autocmd WinLeave * call <SID>StatusLineHighlight(0)
     autocmd InsertEnter * if ! &l:modified | call <SID>StatusLineGetModification() | endif
 augroup END
