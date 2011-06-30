@@ -20,6 +20,9 @@ changing the highlighting of the window's status line. It defines additional
 StatusLine... / StatusLine...NC highlight groups that are customizable and by
 default use different colors to differentiate the buffer states. 
 
+An example screenshot can be found at
+    http://ingo-karkat.de/swdev/vim/StatusLineHighlight.png
+
 HOW IT WORKS								     *
 
 Using different colors for the status line is trickier than it seems: Though
