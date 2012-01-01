@@ -110,6 +110,9 @@ IDEAS						   *StatusLineHighlight-ideas*
 ==============================================================================
 HISTORY						 *StatusLineHighlight-history*
 
+1.01	01-Jul-2011
+Avoid losing the statusline highlightings on colorscheme commands. 
+
 1.00	27-Dec-2010
 First published version. 
 
@@ -117,7 +120,7 @@ First published version.
 Started development. 
 
 ==============================================================================
-Copyright: (C) 2010 Ingo Karkat
+Copyright: (C) 2010-2011 Ingo Karkat
 The VIM LICENSE applies to this script; see |copyright|. 
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
