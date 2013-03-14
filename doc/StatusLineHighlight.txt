@@ -86,7 +86,10 @@ non-current windows.  >
     highlight StatusLineSpecialNC          term=reverse      cterm=reverse      ctermfg=DarkBlue gui=reverse      guifg=DarkBlue
     highlight StatusLineUnmodifiable       term=bold,reverse cterm=bold,reverse ctermfg=Grey     gui=bold,reverse guifg=Grey
     highlight StatusLineUnmodifiableNC     term=reverse      cterm=reverse      ctermfg=Grey     gui=reverse      guifg=Grey
-<
+If you want to avoid losing the highlightings on |:colorscheme| commands, you
+need to re-apply your highlights on the |ColorScheme| event, similar to how
+this plugin does. 
+
 ==============================================================================
 LIMITATIONS				     *StatusLineHighlight-limitations*
 
