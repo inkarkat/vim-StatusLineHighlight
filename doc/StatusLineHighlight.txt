@@ -1,4 +1,4 @@
-*StatusLineHighlight.txt*   Change statusline color depending on buffer state. 
+*StatusLineHighlight.txt*   Change statusline color depending on buffer state.
 
 		   STATUS LINE HIGHLIGHT    by Ingo Karkat
 						     *StatusLineHighlight.vim*
@@ -18,7 +18,7 @@ This plugin indicates the state of the buffer (modified, readonly,
 unmodifiable, special non-file "scratch") / window (is preview window) by
 changing the highlighting of the window's status line. It defines additional
 StatusLine... / StatusLine...NC highlight groups that are customizable and by
-default use different colors to differentiate the buffer states. 
+default use different colors to differentiate the buffer states.
 
 An example screenshot can be found at
     http://ingo-karkat.de/swdev/vim/StatusLineHighlight.png
@@ -31,25 +31,25 @@ text is taken as-is; highlight items %#hlgroup# and #* are not evaluated, only
 printed as text. Evaluation does happen when one %!expr is used, but the
 expression seems to be evaluated only once for a complete screen redraw cycle,
 not for each individual status line, so one cannot use it to set different
-highlightings for different status lines. 
+highlightings for different status lines.
 
 Therefore, this plugin sets up autocmds that continually adapt buffer-local
 'statusline' settings (which prepend the highlight group to the (mostly)
 global setting (though local 'statusline' settings set by ftplugins are kept,
-too)). 
+too)).
 
 ==============================================================================
 USAGE						   *StatusLineHighlight-usage*
 
 This plugin does not introduce any commands or mappings. Just observe the
-changed status line colors, e.g. when using :view, :pedit, :help, etc. 
+changed status line colors, e.g. when using :view, :pedit, :help, etc.
 
 You immediately see that a buffer is read-only because its status line is
 gray, not black; unmodifiable buffers are even "more" gray. Unsaved, modified
 buffers are indicated via a dark-red status line. Special windows like the
 command and quickfix windows, as well as many "scratch" buffers used by
 plugins are shown in dark blue. The preview window is now also easy to find,
-because it has a blue status line. 
+because it has a blue status line.
 
 ==============================================================================
 INSTALLATION				    *StatusLineHighlight-installation*
@@ -60,16 +60,16 @@ the archive first, e.g. using WinZip. Inside Vim, install by sourcing the
 vimball or via the |:UseVimball| command. >
     vim StatusLineHighlight.vba.gz
     :so %
-To uninstall, use the |:RmVimball| command. 
+To uninstall, use the |:RmVimball| command.
 
 DEPENDENCIES				    *StatusLineHighlight-dependencies*
 
-- Requires Vim 7.0 or higher. 
+- Requires Vim 7.0 or higher.
 
 ==============================================================================
 CONFIGURATION				   *StatusLineHighlight-configuration*
 
-For a permanent configuration, put the following commands into your |vimrc|: 
+For a permanent configuration, put the following commands into your |vimrc|:
 
 						     *StatusLineHighlightings*
 You may override the default highlightings and define your own colors in the
@@ -88,18 +88,18 @@ non-current windows.  >
     highlight StatusLineUnmodifiableNC     term=reverse      cterm=reverse      ctermfg=Grey     gui=reverse      guifg=Grey
 If you want to avoid losing the highlightings on |:colorscheme| commands, you
 need to re-apply your highlights on the |ColorScheme| event, similar to how
-this plugin does. 
+this plugin does.
 
 ==============================================================================
 LIMITATIONS				     *StatusLineHighlight-limitations*
 
 - Due to the use of autocmds and to avoid dragging down Vim's performance with
   excessive updates, the status line highlighting does not always properly
-  reflect the actual buffer state, especially for non-active windows. 
+  reflect the actual buffer state, especially for non-active windows.
 - Existing windows will not reflect changes in the (global) 'statusline' and
-  'ruler' settings, only new ones. 
+  'ruler' settings, only new ones.
 - The set of buffer states and their precedence is hard-coded and cannot be
-  customized. 
+  customized.
 
 KNOWN PROBLEMS				  *StatusLineHighlight-known-problems*
 
@@ -108,23 +108,23 @@ TODO						    *StatusLineHighlight-todo*
 IDEAS						   *StatusLineHighlight-ideas*
 
 - Use get/setWinVar() to update the 'statusline' setting for _all_ visible
-  windows on autocmd. 
+  windows on autocmd.
 
 ==============================================================================
 HISTORY						 *StatusLineHighlight-history*
 
 1.01	01-Jul-2011
-Avoid losing the statusline highlightings on colorscheme commands. 
+Avoid losing the statusline highlightings on colorscheme commands.
 
 1.00	27-Dec-2010
-First published version. 
+First published version.
 
 0.01	15-Dec-2010
-Started development. 
+Started development.
 
 ==============================================================================
 Copyright: (C) 2010-2011 Ingo Karkat
-The VIM LICENSE applies to this script; see |copyright|. 
+The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
 ==============================================================================
