@@ -55,10 +55,10 @@ because it has a blue status line.
 INSTALLATION				    *StatusLineHighlight-installation*
 
 This script is packaged as a |vimball|. If you have the "gunzip" decompressor
-in your PATH, simply edit the *.vba.gz package in Vim; otherwise, decompress
+in your PATH, simply edit the *.vmb.gz package in Vim; otherwise, decompress
 the archive first, e.g. using WinZip. Inside Vim, install by sourcing the
 vimball or via the |:UseVimball| command. >
-    vim StatusLineHighlight.vba.gz
+    vim StatusLineHighlight*.vmb.gz
     :so %
 To uninstall, use the |:RmVimball| command.
 
@@ -113,6 +113,9 @@ IDEAS						   *StatusLineHighlight-ideas*
 ==============================================================================
 HISTORY						 *StatusLineHighlight-history*
 
+1.02	RELEASEME
+- Minor: Make substitute() robust against 'ignorecase'.
+
 1.01	01-Jul-2011
 Avoid losing the statusline highlightings on colorscheme commands.
 
@@ -123,7 +126,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2010-2011 Ingo Karkat
+Copyright: (C) 2010-2013 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
