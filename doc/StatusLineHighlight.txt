@@ -73,9 +73,9 @@ For a permanent configuration, put the following commands into your |vimrc|:
 
 						     *StatusLineHighlightings*
 You may override the default highlightings and define your own colors in the
-following form. As with the built-in status line highlighting, there is a
-|hl-StatusLine| group for the current window and a |hl-StatusLineNC| for all
-non-current windows.  >
+following form (after any |:colorscheme| command). As with the built-in status
+line highlighting, there is a |hl-StatusLine| group for the current window and
+a |hl-StatusLineNC| for all non-current windows.  >
     highlight StatusLineModified           term=bold,reverse cterm=bold,reverse ctermfg=DarkRed  gui=bold,reverse guifg=DarkRed
     highlight StatusLineModifiedNC         term=reverse      cterm=reverse      ctermfg=DarkRed  gui=reverse      guifg=DarkRed
     highlight StatusLinePreview            term=bold,reverse cterm=bold,reverse ctermfg=Blue     gui=bold,reverse guifg=Blue
@@ -126,7 +126,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2010-2013 Ingo Karkat
+Copyright: (C) 2010-2014 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
