@@ -113,7 +113,10 @@ IDEAS						   *StatusLineHighlight-ideas*
 ==============================================================================
 HISTORY						 *StatusLineHighlight-history*
 
-1.02	RELEASEME
+1.10	RELEASEME
+- ENH: Handle hl-User1..9 highlighting by replacing %* and %0* with the custom
+  statusline highlighting. Previously, the custom statusline highlighting
+  provided by this plugin stopped after the end of a User highlighting.
 - Minor: Make substitute() robust against 'ignorecase'.
 
 1.01	01-Jul-2011
@@ -126,7 +129,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2010-2014 Ingo Karkat
+Copyright: (C) 2010-2015 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
