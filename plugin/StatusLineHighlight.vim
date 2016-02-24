@@ -2,12 +2,17 @@
 "
 " DEPENDENCIES:
 "
-" Copyright: (C) 2010-2011 Ingo Karkat
+" Copyright: (C) 2010-2015 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.10.008	27-Feb-2015	ENH: Handle hl-User1..9 highlighting by
+"				replacing %* and %0* with the custom statusline
+"				highlighting. Previously, the custom statusline
+"				highlighting provided by this plugin stopped
+"				after the end of a User highlighting.
 "   1.02.007	14-Jun-2013	Minor: Make substitute() robust against
 "				'ignorecase'.
 "   1.01.006	01-Jul-2011	Avoid losing the statusline highlightings on
@@ -69,8 +74,12 @@ function! s:DefaultStatusline()
     " Thus, we have to emulate Vim's default status line here.
     return '%<%f %h%m%r' . (&ruler ? '%=%-14.(%l,%c%V%) %P' : '')
 endfunction
+function! s:SubstituteDefaultHighlight( statusline, highlightName )
+    return substitute(a:statusline, '%0\?\*', a:highlightName, 'g')
+endfunction
 function! s:SetHighlight( name )
-    let l:statuslineWithHighlight = '%#StatusLine' . a:name . '#' . (empty(&g:stl) ? s:DefaultStatusline() : &g:stl)
+    let l:highlightName = '%#StatusLine' . a:name . '#'
+    let l:statuslineWithHighlight = l:highlightName . (empty(&g:stl) ? s:DefaultStatusline() : s:SubstituteDefaultHighlight(&g:stl, l:highlightName))
 
     if &l:stl ==# l:statuslineWithHighlight
 	" The highlight is already set; nothing to do.
@@ -86,15 +95,16 @@ function! s:SetHighlight( name )
 	" customizations with a different highlight group, or an actual
 	" window-local statusline set by either the user or a filetype plugin.
 "****D echomsg '*** old: ' . strpart(&l:stl, 0, 25) . ' new: ' strpart(l:statuslineWithHighlight, 0, 25)
-	let l:statuslineWithoutHighlight = substitute(&l:stl, '\C^%#StatusLine\w\+#', '', '')
+	let l:statuslineWithoutHighlight = substitute(&l:stl, '\C%#StatusLine\w\+#', '%*', 'g')
 	if &l:stl ==# l:statuslineWithoutHighlight
 	    " There actually was an actual window-local statusline. Save it so
 	    " that it can be restored instead of overwriting it with the global
 	    " statusline.
 	    let w:save_statusline = l:statuslineWithoutHighlight
+	    let &l:stl = l:highlightName .  s:SubstituteDefaultHighlight(l:statuslineWithoutHighlight, l:highlightName)
+	else
+	    let &l:stl = s:SubstituteDefaultHighlight(l:statuslineWithoutHighlight, l:highlightName)
 	endif
-
-	let &l:stl = '%#StatusLine' . a:name . '#' .  l:statuslineWithoutHighlight
     endif
 endfunction
 function! s:ClearHighlight()
