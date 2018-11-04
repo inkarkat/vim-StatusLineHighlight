@@ -2,38 +2,10 @@
 "
 " DEPENDENCIES:
 "
-" Copyright: (C) 2010-2015 Ingo Karkat
+" Copyright: (C) 2010-2018 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
-"
-" REVISION	DATE		REMARKS
-"   1.10.008	27-Feb-2015	ENH: Handle hl-User1..9 highlighting by
-"				replacing %* and %0* with the custom statusline
-"				highlighting. Previously, the custom statusline
-"				highlighting provided by this plugin stopped
-"				after the end of a User highlighting.
-"   1.02.007	14-Jun-2013	Minor: Make substitute() robust against
-"				'ignorecase'.
-"   1.01.006	01-Jul-2011	Avoid losing the statusline highlightings on
-"				:colorscheme commands.
-"   1.00.005	27-Dec-2010	Added check and emulation for empty &g:stl (the
-"				default), so that this also works for a vanilla,
-"				uncustomized Vim.
-"				Added CmdwinEnter event to properly highlight
-"				the command window as "special".
-"	004	21-Dec-2010	Corrected cterm highlighting. cterm=reverse
-"				doesn't work in the Windows console. Added a
-"				note about this and possible workarounds.
-"	003	18-Dec-2010	Now detecting buffer modification also after
-"				moving around while in insert mode.
-"				Shuffled blocks around in the script.
-"	002	16-Dec-2010	Added highlight groups for more than just
-"				readonly.
-"				Added autocmds to better capture buffer
-"				modification: InsertEnter (followed by fire-once
-"				CursorMovedI) and BufWritePost.
-"	001	15-Dec-2010	file creation
 
 " Avoid installing twice, when in unsupported Vim version, or there are no
 " colors.
