@@ -20,8 +20,8 @@ changing the highlighting of the window's status line. It defines additional
 StatusLine... / StatusLine...NC highlight groups that are customizable and by
 default use different colors to differentiate the buffer states.
 
-An example screenshot can be found at
-    http://ingo-karkat.de/swdev/vim/StatusLineHighlight.png
+This screenshot shows the plugin in action:
+    https://raw.githubusercontent.com/inkarkat/vim-StatusLineHighlight/master/doc/StatusLineHighlight.png
 
 HOW IT WORKS								     *
 
@@ -54,10 +54,16 @@ because it has a blue status line.
 ==============================================================================
 INSTALLATION				    *StatusLineHighlight-installation*
 
-This script is packaged as a |vimball|. If you have the "gunzip" decompressor
-in your PATH, simply edit the *.vmb.gz package in Vim; otherwise, decompress
-the archive first, e.g. using WinZip. Inside Vim, install by sourcing the
-vimball or via the |:UseVimball| command. >
+The code is hosted in a Git repo at
+    https://github.com/inkarkat/vim-StatusLineHighlight
+You can use your favorite plugin manager, or "git clone" into a directory used
+for Vim |packages|. Releases are on the "stable" branch, the latest unstable
+development snapshot on "master".
+
+This script is also packaged as a |vimball|. If you have the "gunzip"
+decompressor in your PATH, simply edit the *.vmb.gz package in Vim; otherwise,
+decompress the archive first, e.g. using WinZip. Inside Vim, install by
+sourcing the vimball or via the |:UseVimball| command. >
     vim StatusLineHighlight*.vmb.gz
     :so %
 To uninstall, use the |:RmVimball| command.
@@ -107,13 +113,19 @@ TODO						    *StatusLineHighlight-todo*
 
 IDEAS						   *StatusLineHighlight-ideas*
 
-- Use get/setWinVar() to update the 'statusline' setting for _all_ visible
+- Use get/setwinvar() to update the 'statusline' setting for _all_ visible
   windows on autocmd.
+
+CONTRIBUTING				      *StatusLineHighlight-contribute*
+
+Report any bugs, send patches, or suggest features via the issue tracker at
+https://github.com/inkarkat/vim-StatusLineHighlight/issues or email (address
+below).
 
 ==============================================================================
 HISTORY						 *StatusLineHighlight-history*
 
-1.10	RELEASEME
+1.10	04-Nov-2018
 - ENH: Handle hl-User1..9 highlighting by replacing %* and %0* with the custom
   statusline highlighting. Previously, the custom statusline highlighting
   provided by this plugin stopped after the end of a User highlighting.
@@ -129,7 +141,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2010-2015 Ingo Karkat
+Copyright: (C) 2010-2018 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
