@@ -115,7 +115,7 @@ below).
 HISTORY
 ------------------------------------------------------------------------------
 
-##### 1.10    RELEASEME
+##### 1.10    04-Nov-2018
 - ENH: Handle hl-User1..9 highlighting by replacing %\* and %0\* with the custom
   statusline highlighting. Previously, the custom statusline highlighting
   provided by this plugin stopped after the end of a User highlighting.
