@@ -28,6 +28,8 @@ function! s:DefaultHighlightings()
     highlight def StatusLineModifiedNC         term=reverse      cterm=reverse      ctermfg=DarkRed  gui=reverse      guifg=DarkRed
     highlight def StatusLinePreview            term=bold,reverse cterm=bold,reverse ctermfg=Blue     gui=bold,reverse guifg=Blue
     highlight def StatusLinePreviewNC          term=reverse      cterm=reverse      ctermfg=Blue     gui=reverse      guifg=Blue
+    highlight def StatusLinePrompt             term=bold,reverse cterm=bold,reverse ctermfg=Green    gui=bold,reverse guifg=SeaGreen
+    highlight def StatusLinePromptNC           term=reverse      cterm=reverse      ctermfg=Green    gui=reverse      guifg=SeaGreen
     highlight def StatusLineReadonly           term=bold,reverse cterm=bold,reverse ctermfg=Grey     gui=bold,reverse guifg=DarkGrey
     highlight def StatusLineReadonlyNC         term=reverse      cterm=reverse      ctermfg=Grey     gui=reverse      guifg=DarkGrey
     highlight def StatusLineSpecial            term=bold,reverse cterm=bold,reverse ctermfg=DarkBlue gui=bold,reverse guifg=DarkBlue
@@ -98,6 +100,10 @@ function! s:StatusLineHighlight( isEnter )
     let l:notCurrent = (a:isEnter ? '' : 'NC')
     if &l:previewwindow
 	call s:SetHighlight('Preview' . l:notCurrent)
+    elseif &l:buftype ==# 'terminal'
+	call s:ClearHighlight()
+    elseif &l:buftype ==# 'prompt'
+	call s:SetHighlight('Prompt' . l:notCurrent)
     elseif &l:modified
 	call s:SetHighlight('Modified' . l:notCurrent)
     elseif ! (&l:buftype ==# '' || &l:buftype ==# 'acwrite')
