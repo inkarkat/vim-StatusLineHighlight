@@ -2,7 +2,7 @@
 "
 " DEPENDENCIES:
 "
-" Copyright: (C) 2010-2018 Ingo Karkat
+" Copyright: (C) 2010-2019 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -134,6 +134,10 @@ augroup StatusLineHighlight
     autocmd WinLeave * call <SID>StatusLineHighlight(0)
     autocmd InsertEnter * if ! &l:modified | call <SID>StatusLineGetModification() | endif
     autocmd ColorScheme * call <SID>DefaultHighlightings()
+
+    if exists('##OptionSet')
+	autocmd OptionSet previewwindow,modified,modifiable,readonly call <SID>StatusLineHighlight(1)
+    endif
 augroup END
 
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :

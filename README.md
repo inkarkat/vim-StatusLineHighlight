@@ -1,4 +1,4 @@
-STATUS LINE HIGHLIGHT   
+STATUS LINE HIGHLIGHT
 ===============================================================================
 _by Ingo Karkat_
 
@@ -79,6 +79,8 @@ a hl-StatusLineNC for all non-current windows.
     highlight StatusLineModifiedNC         term=reverse      cterm=reverse      ctermfg=DarkRed  gui=reverse      guifg=DarkRed
     highlight StatusLinePreview            term=bold,reverse cterm=bold,reverse ctermfg=Blue     gui=bold,reverse guifg=Blue
     highlight StatusLinePreviewNC          term=reverse      cterm=reverse      ctermfg=Blue     gui=reverse      guifg=Blue
+    highlight StatusLinePrompt             term=bold,reverse cterm=bold,reverse ctermfg=Green    gui=bold,reverse guifg=SeaGreen
+    highlight StatusLinePromptNC           term=reverse      cterm=reverse      ctermfg=Green    gui=reverse      guifg=SeaGreen
     highlight StatusLineReadonly           term=bold,reverse cterm=bold,reverse ctermfg=Grey     gui=bold,reverse guifg=DarkGrey
     highlight StatusLineReadonlyNC         term=reverse      cterm=reverse      ctermfg=Grey     gui=reverse      guifg=DarkGrey
     highlight StatusLineSpecial            term=bold,reverse cterm=bold,reverse ctermfg=DarkBlue gui=bold,reverse guifg=DarkBlue
@@ -115,6 +117,15 @@ below).
 HISTORY
 ------------------------------------------------------------------------------
 
+##### 1.20    RELEASEME
+- ENH: Add support for terminal windows (for which Vim already provides a
+  special hl-StatusLineTerm highlight group, so the plugin just needs to
+  ensure that other attributes (like 'modified') do not apply) and
+  |prompt-buffer|s.
+- ENH: Use OptionSet event to immediately update the current window's
+  statusline if 'previewwindow', 'modified', 'modifiable', or 'readonly'
+  change.
+
 ##### 1.10    04-Nov-2018
 - ENH: Handle hl-User1..9 highlighting by replacing %\* and %0\* with the custom
   statusline highlighting. Previously, the custom statusline highlighting
@@ -131,7 +142,7 @@ HISTORY
 - Started development.
 
 ------------------------------------------------------------------------------
-Copyright: (C) 2010-2018 Ingo Karkat -
+Copyright: (C) 2010-2019 Ingo Karkat -
 The [VIM LICENSE](http://vimdoc.sourceforge.net/htmldoc/uganda.html#license) applies to this plugin.
 
-Maintainer:     Ingo Karkat <ingo@karkat.de>
+Maintainer:     Ingo Karkat &lt;ingo@karkat.de&gt;
