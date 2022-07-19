@@ -135,6 +135,8 @@ HISTORY						 *StatusLineHighlight-history*
 - ENH: Use OptionSet event to immediately update the current window's
   statusline if 'previewwindow', 'modified', 'modifiable', or 'readonly'
   change.
+- Prevent "E539: Illegal character <!>" when expression evaluation
+  ('statusline' starts with %!) is used.
 
 1.10	04-Nov-2018
 - ENH: Handle hl-User1..9 highlighting by replacing %* and %0* with the custom
@@ -152,7 +154,7 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2010-2019 Ingo Karkat
+Copyright: (C) 2010-2022 Ingo Karkat
 The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>

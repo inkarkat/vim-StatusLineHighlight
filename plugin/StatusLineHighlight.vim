@@ -2,7 +2,7 @@
 "
 " DEPENDENCIES:
 "
-" Copyright: (C) 2010-2019 Ingo Karkat
+" Copyright: (C) 2010-2022 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -69,6 +69,12 @@ function! s:SetHighlight( name )
 	" customizations with a different highlight group, or an actual
 	" window-local statusline set by either the user or a filetype plugin.
 "****D echomsg '*** old: ' . strpart(&l:stl, 0, 25) . ' new: ' strpart(l:statuslineWithHighlight, 0, 25)
+	if strpart(&l:stl, 0, 2) ==# '%!'
+	    " Prevent "E539: Illegal character <!>" when expression evaluation
+	    " is used.
+	    return
+	endif
+
 	let l:statuslineWithoutHighlight = substitute(&l:stl, '\C%#StatusLine\w\+#', '%*', 'g')
 	if &l:stl ==# l:statuslineWithoutHighlight
 	    " There actually was an actual window-local statusline. Save it so

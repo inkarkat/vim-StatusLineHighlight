@@ -125,6 +125,8 @@ HISTORY
 - ENH: Use OptionSet event to immediately update the current window's
   statusline if 'previewwindow', 'modified', 'modifiable', or 'readonly'
   change.
+- Prevent "E539: Illegal character &lt;!&gt;" when expression evaluation
+  ('statusline' starts with %!) is used.
 
 ##### 1.10    04-Nov-2018
 - ENH: Handle hl-User1..9 highlighting by replacing %\* and %0\* with the custom
@@ -142,7 +144,7 @@ HISTORY
 - Started development.
 
 ------------------------------------------------------------------------------
-Copyright: (C) 2010-2019 Ingo Karkat -
+Copyright: (C) 2010-2022 Ingo Karkat -
 The [VIM LICENSE](http://vimdoc.sourceforge.net/htmldoc/uganda.html#license) applies to this plugin.
 
 Maintainer:     Ingo Karkat &lt;ingo@karkat.de&gt;
