@@ -117,7 +117,7 @@ below).
 HISTORY
 ------------------------------------------------------------------------------
 
-##### 1.20    RELEASEME
+##### 1.20    13-Nov-2024
 - ENH: Add support for terminal windows (for which Vim already provides a
   special hl-StatusLineTerm highlight group, so the plugin just needs to
   ensure that other attributes (like 'modified') do not apply) and
@@ -144,7 +144,7 @@ HISTORY
 - Started development.
 
 ------------------------------------------------------------------------------
-Copyright: (C) 2010-2022 Ingo Karkat -
+Copyright: (C) 2010-2024 Ingo Karkat -
 The [VIM LICENSE](http://vimdoc.sourceforge.net/htmldoc/uganda.html#license) applies to this plugin.
 
 Maintainer:     Ingo Karkat &lt;ingo@karkat.de&gt;
