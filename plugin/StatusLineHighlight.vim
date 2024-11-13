@@ -2,7 +2,7 @@
 "
 " DEPENDENCIES:
 "
-" Copyright: (C) 2010-2018 Ingo Karkat
+" Copyright: (C) 2010-2022 Ingo Karkat
 "   The VIM LICENSE applies to this script; see ':help copyright'.
 "
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
@@ -28,6 +28,8 @@ function! s:DefaultHighlightings()
     highlight def StatusLineModifiedNC         term=reverse      cterm=reverse      ctermfg=DarkRed  gui=reverse      guifg=DarkRed
     highlight def StatusLinePreview            term=bold,reverse cterm=bold,reverse ctermfg=Blue     gui=bold,reverse guifg=Blue
     highlight def StatusLinePreviewNC          term=reverse      cterm=reverse      ctermfg=Blue     gui=reverse      guifg=Blue
+    highlight def StatusLinePrompt             term=bold,reverse cterm=bold,reverse ctermfg=Green    gui=bold,reverse guifg=SeaGreen
+    highlight def StatusLinePromptNC           term=reverse      cterm=reverse      ctermfg=Green    gui=reverse      guifg=SeaGreen
     highlight def StatusLineReadonly           term=bold,reverse cterm=bold,reverse ctermfg=Grey     gui=bold,reverse guifg=DarkGrey
     highlight def StatusLineReadonlyNC         term=reverse      cterm=reverse      ctermfg=Grey     gui=reverse      guifg=DarkGrey
     highlight def StatusLineSpecial            term=bold,reverse cterm=bold,reverse ctermfg=DarkBlue gui=bold,reverse guifg=DarkBlue
@@ -67,6 +69,12 @@ function! s:SetHighlight( name )
 	" customizations with a different highlight group, or an actual
 	" window-local statusline set by either the user or a filetype plugin.
 "****D echomsg '*** old: ' . strpart(&l:stl, 0, 25) . ' new: ' strpart(l:statuslineWithHighlight, 0, 25)
+	if strpart(&l:stl, 0, 2) ==# '%!'
+	    " Prevent "E539: Illegal character <!>" when expression evaluation
+	    " is used.
+	    return
+	endif
+
 	let l:statuslineWithoutHighlight = substitute(&l:stl, '\C%#StatusLine\w\+#', '%*', 'g')
 	if &l:stl ==# l:statuslineWithoutHighlight
 	    " There actually was an actual window-local statusline. Save it so
@@ -98,6 +106,10 @@ function! s:StatusLineHighlight( isEnter )
     let l:notCurrent = (a:isEnter ? '' : 'NC')
     if &l:previewwindow
 	call s:SetHighlight('Preview' . l:notCurrent)
+    elseif &l:buftype ==# 'terminal'
+	call s:ClearHighlight()
+    elseif &l:buftype ==# 'prompt'
+	call s:SetHighlight('Prompt' . l:notCurrent)
     elseif &l:modified
 	call s:SetHighlight('Modified' . l:notCurrent)
     elseif ! (&l:buftype ==# '' || &l:buftype ==# 'acwrite')
@@ -128,6 +140,10 @@ augroup StatusLineHighlight
     autocmd WinLeave * call <SID>StatusLineHighlight(0)
     autocmd InsertEnter * if ! &l:modified | call <SID>StatusLineGetModification() | endif
     autocmd ColorScheme * call <SID>DefaultHighlightings()
+
+    if exists('##OptionSet')
+	autocmd OptionSet previewwindow,modified,modifiable,readonly call <SID>StatusLineHighlight(1)
+    endif
 augroup END
 
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
